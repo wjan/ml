@@ -8,8 +8,8 @@ import sys
 from quicker import Quicker
 
 plt.switch_backend('qtagg')
-cap = cv2.VideoCapture('rtsp://192.168.0.48:8554/stream0')
-plotData = None
+# cap = cv2.VideoCapture('rtsp://192.168.0.48:8554/stream0')
+# plotData = None
 model = torch.hub.load('ultralytics/yolov5', 'yolov5s', pretrained=True)
 
 quicker = Quicker()
@@ -33,10 +33,11 @@ def processFrame(frame):
     result = model(frame)
     # cv2.imshow('YOLO', np.squeeze(result.render())),
     items = result.xyxy[0]
+    person_found = False
     for index in range(len(items)):
+        person_found = True
+        item = items[index].cpu().numpy()
         if item[5] == 0:
-            item = items[index].cpu().numpy()
-
             xcenter = int((item[0] + item[2]) / 2)
 
             width = frame.shape[1]
@@ -44,13 +45,22 @@ def processFrame(frame):
             
             offset = (xcenter - center) / width
 
+            print(f"Width: {width}")
+            print(f"Offset: {offset}")
+
             print(offset)
-            if offset < -0.1:
+            if offset < -0.2:
                 quicker.car_control('right', 100)
-            elif offset > 0.1:
+                print(f"Go left")
+            elif offset > 0.2:
                 quicker.car_control('left', 100)
+                print(f"Go right")
             else:
                 quicker.car_control('ahead', 100)
+                print(f"Go ahead")
+        if person_found == False:
+            quicker.car_control('left', 100)
+            print(f"Spin")
 
         
 

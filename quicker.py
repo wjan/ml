@@ -69,9 +69,11 @@ class Quicker:
                 # Decode the image
                 img_array = np.frombuffer(jpg, dtype=np.uint8)
                 frame = cv2.imdecode(img_array, cv2.IMREAD_COLOR)
-                if frame is not None:
-                    cv2.imshow('Video Stream', frame)
-                frame = cv2.imencode(".png", frame)[1].tobytes()
+                # if frame is not None:
+                frame = cv2.flip(frame, 1)
+                cv2.imshow('Video Stream', frame)
+                
+                # frame = cv2.imencode(".png", frame)[1].tobytes()
                 callback(frame)
 
 
