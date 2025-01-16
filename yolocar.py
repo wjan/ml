@@ -31,7 +31,8 @@ def computeVision():
 def processFrame(frame):
     # print(frame.shape)
     result = model(frame)
-    # cv2.imshow('YOLO', np.squeeze(result.render())),
+    cv2.imshow('YOLO', np.squeeze(result.render())),
+    cv2.waitKey(1)
     items = result.xyxy[0]
     person_found = False
     for index in range(len(items)):
@@ -68,4 +69,5 @@ def processFrame(frame):
 
 quicker.main(processFrame)
 # computeVision()
+cv2.destroyAllWindows()
 

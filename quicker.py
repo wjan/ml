@@ -1,5 +1,6 @@
 import cv2
 import numpy as np
+import sys
 import time 
 import requests
 
@@ -34,7 +35,7 @@ class Quicker:
         elif direction == "stop":
             command = '5'
         self.invoke_car_control(command)
-        time.sleep(duration / 1000)
+        # time.sleep(duration / 1000)
         self.invoke_car_control('5')
         self.invoke_car_control('5')
 
@@ -70,10 +71,24 @@ class Quicker:
                 img_array = np.frombuffer(jpg, dtype=np.uint8)
                 frame = cv2.imdecode(img_array, cv2.IMREAD_COLOR)
                 # if frame is not None:
-                frame = cv2.flip(frame, 1)
-                cv2.imshow('Video Stream', frame)
-                
-                # frame = cv2.imencode(".png", frame)[1].tobytes()
-                callback(frame)
+                frame = cv2.flip(frame, 0)
+                # frame2 = cv2.imencode(".png", frame)
+                # Debug prints
+                # print(f'Found JPEG markers: a={a}, b={b}')
+                # print(f'JPEG size: {len(jpg)}')
+                # print(f'Frame shape: {frame.shape}, dtype: {frame.dtype}')
+
+                # # Save the frame to disk
+                # frame_filename = f'frame.jpg'
+                # cv2.imwrite(frame_filename, frame)
+                if frame is not None:
+                    # cv2.imshow('Frame', frame)
+                    # time.sleep(0.5)
+                    # time.sleep(10)
+                    # sys.exit()
+                    callback(frame)
+                # if cv2.waitKey(1) & 0xFF == ord('q'):
+                    # break
+        
 
 
