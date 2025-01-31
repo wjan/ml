@@ -1,0 +1,2 @@
+ollama serve #to run backend
+ollana run llava #to run cmd line and prefetch llava model (or other)
