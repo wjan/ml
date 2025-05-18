@@ -6,7 +6,8 @@ import sys
 model = torch.hub.load('ultralytics/yolov5', 'yolov5s', pretrained=True)
 
 #cap = cv2.VideoCapture('rtsp://tapoadmin:tapoadmin@192.168.0.207/stream1')
-cap = cv2.VideoCapture(0)
+# cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture('rtsp://tapoadmin:tapoadmin@192.168.0.199/stream1')
 while cap.isOpened():
     ret, frame = cap.read()
     img = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
